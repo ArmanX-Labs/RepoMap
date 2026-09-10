@@ -17,6 +17,7 @@
     "@microsoft/clarity": "^1.0.2",
     "@tailwindcss/typography": "^0.5.20",
     "@vercel/analytics": "^2.0.1",
+    "cssesc": "^3.0.0",
     "dagre": "^0.8.5",
     "html-to-image": "^1.11.13",
     "idb": "^8.0.3",
@@ -32,7 +33,7 @@
     "sonner": "^2.0.7"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
+    "@tailwindcss/postcss": "^4.3.3",
     "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.3.2",
     "@types/dagre": "^0.7.54",
@@ -45,8 +46,8 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
     "jsdom": "^29.1.1",
-    "tailwindcss": "^4",
-    "typescript": "^5",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3",
     "vitest": "^4.1.10"
   }
 }

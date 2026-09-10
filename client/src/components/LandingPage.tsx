@@ -6,6 +6,7 @@ import Image from 'next/image';
 import ReactFlow, { Edge, Node, useNodesState, useEdgesState } from 'reactflow';
 import 'reactflow/dist/style.css';
 import CustomNode from './CustomNode';
+import CopyButton from './CopyButton';
 
 const initialNodes: Node[] = [
   { id: '1', type: 'custom', position: { x: 80, y: 80 }, data: { label: 'schema.prisma', path: 'prisma/schema.prisma' } },
@@ -643,8 +644,11 @@ export default function LandingPage({ repoUrl, setRepoUrl, onAnalyze, loading }:
                 <div className="text-[10px] text-gray-400 flex-1 text-center font-sans tracking-wide">
                   Live Simulation Console
                 </div>
-                <div className="text-[10px] text-white bg-white/10 px-2 py-0.5 rounded border border-white/10 transition-all duration-300">
-                  {stepData[activeStepTab].mockupStatus}
+                <div className="flex items-center gap-2">
+                  <div className="text-[10px] text-white bg-white/10 px-2 py-0.5 rounded border border-white/10 transition-all duration-300">
+                    {stepData[activeStepTab].mockupStatus}
+                  </div>
+                  <CopyButton text={stepData[activeStepTab].mockupCommand} className="w-5 h-5 bg-white/5 hover:bg-white/10 rounded border border-white/10" iconClassName="w-3 h-3" />
                 </div>
               </div>
 
@@ -705,7 +709,10 @@ export default function LandingPage({ repoUrl, setRepoUrl, onAnalyze, loading }:
                   <div className="w-3 h-3 rounded-full bg-[#27c93f]"></div>
                 </div>
                 <div className="text-[11px] text-gray-400 font-sans tracking-wide">VS Code — Linear Directory Tree</div>
-                <div className="text-[11px] text-white bg-white/10 px-2 py-0.5 rounded border border-white/10">45 Tabs Open</div>
+                <div className="flex items-center gap-2">
+                  <div className="text-[11px] text-white bg-white/10 px-2 py-0.5 rounded border border-white/10">45 Tabs Open</div>
+                  <CopyButton text="├── controllers/&#10;│   ├── UserController.ts&#10;│   └── AuthController.ts&#10;├── services/&#10;│   └── BillingService.ts&#10;└── models/&#10;    └── UserSchema.prisma" className="w-5 h-5 bg-white/5 hover:bg-white/10 rounded border border-white/10" iconClassName="w-3 h-3" />
+                </div>
               </div>
 
               <div className="p-6 space-y-6 flex-1 flex flex-col">
@@ -749,7 +756,10 @@ export default function LandingPage({ repoUrl, setRepoUrl, onAnalyze, loading }:
                   <div className="w-3 h-3 rounded-full bg-[#27c93f]"></div>
                 </div>
                 <div className="text-[11px] text-blue-200 font-sans tracking-wide font-medium">RepoMap — Spatial 2D Knowledge Graph</div>
-                <div className="text-[11px] text-white bg-blue-500/20 px-2 py-0.5 rounded border border-blue-400/30 font-medium">0 Tab Switching</div>
+                <div className="flex items-center gap-2">
+                  <div className="text-[11px] text-white bg-blue-500/20 px-2 py-0.5 rounded border border-blue-400/30 font-medium">0 Tab Switching</div>
+                  <CopyButton text="[Entry] routes/users.ts (Line 42)&#10;├── (AST Verified Call) ──►&#10;[Auth] lib/jwt.ts : verifySession() (14 Callers)" className="w-5 h-5 bg-blue-500/20 hover:bg-blue-500/30 rounded border border-blue-400/30" iconClassName="w-3 h-3" />
+                </div>
               </div>
 
               <div className="p-6 space-y-6 flex-1 flex flex-col">
@@ -900,9 +910,12 @@ export default function LandingPage({ repoUrl, setRepoUrl, onAnalyze, loading }:
                       </div>
                       <span>{persona.previewTitle}</span>
                     </div>
-                    <span className="text-[11px] font-bold text-gray-300 bg-white/5 px-2.5 py-1 rounded border border-white/10 font-mono">
-                      {persona.previewTag}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[11px] font-bold text-gray-300 bg-white/5 px-2.5 py-1 rounded border border-white/10 font-mono">
+                        {persona.previewTag}
+                      </span>
+                      <CopyButton text={persona.previewCode} className="w-6 h-6 bg-white/5 hover:bg-white/10 rounded border border-white/10" iconClassName="w-3.5 h-3.5" />
+                    </div>
                   </div>
 
                   <div className="text-xs sm:text-sm text-gray-300 leading-relaxed break-all font-mono py-6 flex-1 bg-black/40 mt-4 rounded-xl p-4 border border-white/5 overflow-auto">
