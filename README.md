@@ -1,27 +1,9 @@
-# RepoMap — Google Maps for Source Code
+# RepoMap
+Explore unfamiliar codebases visually.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+RepoMap turns GitHub repositories into interactive architecture maps. It analyzes source code, extracts files, modules, functions, imports, and call relationships, and presents them as an explorable graph.
 
-<p align="center">
-  <strong><a href="https://repomap.armanx.online">Try RepoMap Live Here</a></strong>
-</p>
-
-<p align="center">
-  <img src="./client/src/app/icon.svg" alt="RepoMap Logo" width="80" height="80" />
-</p>
-
-<h3 align="center">
-  AST-Driven Interactive Spatial Knowledge Graph & Multi-Agent Architecture Explorer
-</h3>
-
-<p align="center">
-  Turn dense, complex GitHub repositories into explorable 2D spatial maps. Zoom effortlessly from macro system architecture down to inline AST function calls with zero configuration.
-</p>
-
----
-
-## Product Overview
+Live Demo: [repomap.armanx.online](https://repomap.armanx.online/)
 
 <p align="center">
   <img src="./client/public/screenshot.png" alt="RepoMap Spatial Graph" width="100%" />
@@ -30,163 +12,379 @@
   <em>Navigate huge codebases visually with auto-generated dependency graphs.</em>
 </p>
 
----
+## Why RepoMap?
+Understanding an unfamiliar codebase can be difficult.
+Developers often have to jump between directory trees, files, imports, function definitions, and documentation just to understand how a system fits together.
 
-## The Problem vs. The RepoMap Solution
+RepoMap provides a visual starting point.
+Instead of navigating a repository only as a collection of files, you can explore its structure as a connected graph:
 
-### The Pain: Miller's Law & Tab Fatigue
-Human working memory holds only ~7 items at a time. Tracing code logic across dozens of disconnected IDE tabs forces continuous cognitive re-indexing, spatial disorientation, and mental fatigue.
+```text
+Repository 
+│ 
+├── src/ 
+│   ├── api/ 
+│   │   ├── routes.ts 
+│   │   └── controller.ts 
+│   │ 
+│   ├── services/ 
+│   │   └── auth.ts 
+│   │ 
+│   └── database/ 
+│       └── user.ts 
+└── ...
+```
 
-### The Solution: Deterministic 2D Cartography
-Human spatial memory recalls physical coordinates and visual structures instinctively. **RepoMap** parses your repository's Abstract Syntax Tree (AST), extracts exact module dependencies and function definitions, and pins them onto a persistent, deterministic 2D grid.
+RepoMap connects these relationships and lets you move from high-level architecture to individual functions and their call relationships.
 
-### The Payoff: Flow State & AI Mastery
-Onboard in hours instead of weeks. Inspect live function call chains, trace execution pipelines, query multi-agent AI assistants, and export presentation-ready diagrams side-by-side without ever leaving your visual context.
+## Features
 
----
+### Interactive Codebase Graph
+Explore repositories as an interactive 2D graph.
+- Files and directories
+- Module dependencies
+- Imports and exports
+- Functions and classes
+- Function call relationships
+- Connected nodes and execution paths
 
-## Key Features
+### AST-Based Analysis
+RepoMap analyzes source code rather than relying only on directory structure.
+The parser extracts structural information from supported source files and converts it into a graph representation used by the frontend.
 
-- **AST-Verified Spatial Knowledge Graph**: Automatically parses AST imports, exports, and call hierarchies to generate an interactive, drag-and-zoom 2D node map.
-- **High-Density Cardless Editorial UI**: Designed with modern monochrome typography, sleek glassmorphic aesthetics, and dynamic scroll animations for maximum spatial clarity.
-- **Multi-Agent AI Architectural Assistant**: Deeply integrated with **Google Gemini 2.5 Flash** (and fallback **Llama 3 via Groq**) to generate instant high-level summaries, explain complex functions, and answer architectural questions.
-- **Split-Screen Code & Call Tracing**: Click any node or function to inspect source code, verify callers/callees (`[Entry] ──► [Auth] ──► [DB]`), and explore the module connections.
-- **Instant 0-Second Setup**: Paste any public GitHub repository link (`owner/repository` or full URL) with zero backend indexing or manifest files required.
-- **Draw.io XML Export**: Export clean, presentation-ready architectural blueprints directly from your browser to Draw.io (`.drawio` / XML).
-- **Offline Smart Caching**: Repository topologies, parsed AST graphs, and opened files are cached locally inside `IndexedDB` for lightning-fast re-navigation.
+### Function & Call Tracing
+Inspect how functions are connected across a codebase.
+For example:
+`API Route ↓ Controller ↓ Service ↓ Database`
 
----
+Select nodes to inspect their relationships and navigate through callers and callees.
 
+### Source Inspection
+Open files directly from the graph and inspect their source code without leaving the application.
 
-## Tailored Superpowers for Every Role
+### AI-Assisted Explanations
+RepoMap can use AI providers to explain architectural concepts and selected pieces of code.
+The AI layer is designed as a provider-based system so different models can be used without changing the core repository analysis pipeline.
 
-| Persona | Primary Goal | How RepoMap Supercharges Workflow |
-| :--- | :--- | :--- |
-| **Onboarding Engineers & New Hires** | Fast-Track Mastery | Understand system architecture and module relationships in hours instead of spending weeks lost in directory trees. |
-| **Staff Architects & Tech Leads** | System Audit & Blueprints | Map dependency layers, identify circular references, and export Draw.io presentation diagrams. |
-| **Full-Stack & Systems Developers** | Live Call Chain Tracing | Trace request pipelines right from API endpoints down to database models using the interactive spatial map. |
-| **Security Analysts & Code Reviewers** | Data Flow Inspection | Rapidly follow user input sources and sensitive data flows across disconnected modules with zero context switching. |
+### Search & Navigation
+Search across the generated graph and jump directly to files, folders, or functions.
+This is particularly useful for larger repositories where displaying every node simultaneously would make the graph difficult to navigate.
 
----
+### Large Repository Support
+RepoMap includes optimizations for larger codebases, including:
+- Cached repository analysis
+- Large-repository rendering modes
+- Graph filtering
+- Search across the complete graph
+- Background freshness checks
+
+### Smart Caching
+RepoMap caches repository analysis locally using IndexedDB.
+The system also tracks repository commit hashes so that cached graphs can be refreshed when the remote repository changes.
+
+### Architecture Export
+Export generated architecture diagrams for use in:
+- Documentation
+- Design discussions
+- Presentations
+- Architecture reviews
+
+Supported export formats include Draw.io diagrams and graph image/PDF exports.
+
+## How It Works
+RepoMap follows a pipeline from repository URL to interactive graph.
+
+```text
+GitHub Repository 
+       │ 
+       ▼ 
+Repository Clone 
+       │ 
+       ▼ 
+Source Scanner 
+       │ 
+       ▼ 
+AST / Dependency Analysis 
+       │ 
+       ▼ 
+Graph Generation 
+       │ 
+       ▼ 
+Graph JSON 
+       │ 
+       ▼ 
+React Flow 
+       │ 
+       ▼ 
+Interactive Explorer
+```
+
+**1. Connect**
+Paste a public GitHub repository URL into RepoMap.
+
+**2. Clone**
+The backend creates a temporary copy of the repository for analysis.
+
+**3. Parse**
+The parser scans the repository and extracts relevant source-code relationships.
+
+**4. Build the Graph**
+The extracted information is converted into a graph containing nodes and edges representing relationships within the codebase.
+
+**5. Explore**
+The frontend renders the graph using React Flow.
+Users can zoom from the repository-level structure into individual files, functions, and relationships.
+
+**6. Inspect & Explain**
+Users can inspect source code and optionally use the AI assistant to understand selected components.
+
+## Architecture
+RepoMap is organized into three primary components:
+
+```text
+RepoMap 
+│ 
+├── client/ 
+│   └── Next.js / React frontend 
+│ 
+├── server/ 
+│   └── Express API and repository processing 
+│ 
+└── parser/ 
+    └── Source analysis and graph generation
+```
+
+### Client
+The frontend is built with:
+- Next.js
+- React
+- React Flow
+- Tailwind CSS
+- IndexedDB
+- TypeScript
+
+Responsibilities include:
+- Graph visualization
+- Repository exploration
+- Source inspection
+- Search and navigation
+- Local caching
+- Graph exports
+- AI interaction
+
+### Server
+The backend is built with:
+- Node.js
+- Express
+- TypeScript
+- simple-git
+
+Responsibilities include:
+- Repository cloning
+- Analysis orchestration
+- Cache management
+- API endpoints
+- AI provider integration
+
+### Parser
+The parser is responsible for transforming source code into structured repository information.
+It handles tasks such as:
+- File scanning
+- Import extraction
+- Dependency resolution
+- Function extraction
+- Call extraction
+- Graph construction
 
 ## Technology Stack
 
-### Frontend (`client/`)
-- **Core Framework**: Next.js 15 / React 19 (`App Router`)
-- **Graph Visualization**: React Flow (with custom AST node types & layout algorithms)
-- **Styling & Animation**: Tailwind CSS v4, Lucide Icons, and Intersection Observers (`ScrollReveal`)
-- **Client Caching**: IndexedDB (via `idb`) for persistence
-- **Syntax & Markdown**: `react-syntax-highlighter`, `react-markdown`
+### Frontend
+| Technology | Purpose |
+| --- | --- |
+| Next.js | Application framework |
+| React | UI |
+| React Flow | Graph visualization |
+| TypeScript | Type safety |
+| Tailwind CSS | Styling |
+| IndexedDB | Local persistence |
+| Vitest | Frontend testing |
 
-### Backend (`server/` & `parser/`)
-- **Core Server**: Node.js & Express (TypeScript)
-- **Git Engine**: `simple-git` for real-time repository cloning
-- **AST Parsing Engine**: Custom multi-language AST and regex-based dependency mapping engine (`parser/`)
-- **AI Orchestration**: `@google/genai` (Gemini) with fallback to `groq-sdk` (Llama 3) for the Q&A and architectural explanations.
+### Backend
+| Technology | Purpose |
+| --- | --- |
+| Node.js | Runtime |
+| Express | API server |
+| TypeScript | Backend development |
+| simple-git | Repository operations |
+| Docker | Containerized development |
 
----
+### AI
+RepoMap currently supports multiple AI providers through a provider-based architecture.
+AI functionality is used for tasks such as:
+- Code explanations
+- Architectural summaries
+- Repository understanding
 
-## Getting Started Locally
+## Getting Started
 
 ### Prerequisites
-- **Node.js** (v18 or higher)
-- **npm**, **yarn**, or **pnpm**
-- An optional [Google Gemini API Key](https://aistudio.google.com/) or [Groq API Key](https://console.groq.com/keys) for AI Q&A and Flow Generation.
+Make sure you have:
+- Node.js 18+
+- npm
+- Git
+- Docker (optional)
 
-### 1. Backend & Parser Setup
-
-Open a terminal and navigate to the `server` directory:
-
+### Clone the repository
 ```bash
-cd server
+git clone https://github.com/ArmanX-Labs/RepoMap.git 
+cd RepoMap
+```
+
+### Backend
+```bash
+cd server 
 npm install
 ```
-*(Note: Installing the server dependencies will automatically trigger the `parser/` setup scripts).*
 
-**Configure Environment Variables:**
-Create a `.env` file inside the `server/` directory:
+Create your environment file:
 ```bash
 cp .env.example .env
 ```
-Add your API keys and port settings inside `server/.env`:
+
+Configure the required environment variables:
 ```env
-PORT=5001
-GEMINI_API_KEY=your_gemini_api_key_here
-GROQ_API_KEY=your_groq_api_key_here_as_fallback
+PORT=5001 
+GEMINI_API_KEY=your_gemini_api_key 
+GROQ_API_KEY=your_groq_api_key
 ```
 
-**Start the Backend Server:**
+Start the development server:
 ```bash
 npm run dev
 ```
 
-### 2. Frontend Client Setup
+The backend will run on:
+`http://localhost:5001`
 
-Open a new terminal window and navigate to the `client` directory:
-
+### Frontend
+Open another terminal:
 ```bash
-cd client
+cd client 
 npm install
 ```
 
-**Configure Environment Variables:**
-Create a `.env` file inside the `client/` directory:
+Create the environment file:
 ```bash
 cp .env.example .env
 ```
-Ensure `NEXT_PUBLIC_API_URL` points to your running backend server:
+
+Configure:
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:5001
 ```
 
-**Start the Frontend Client:**
+Start the frontend:
 ```bash
 npm run dev
 ```
 
-The application will be live at **[http://localhost:3000](http://localhost:3000)**!
+The application will be available at:
+`http://localhost:3000`
 
-### 3. Using Docker (Alternative Setup)
+### Docker
+RepoMap can also be run using Docker.
 
-If you prefer using Docker, you can spin up the entire full-stack environment with a single command.
+From the repository root:
+```bash
+docker-compose up --build
+```
 
-1. **Create Root `.env` File**:
-   Create a `.env` file in the root directory of the project to provide your API keys to the containers:
-   ```env
-   GEMINI_API_KEY=your_gemini_api_key_here
-   GROQ_API_KEY=your_groq_api_key_here_as_fallback
-   ```
+To run in the background:
+```bash
+docker-compose up -d --build
+```
 
-2. **Start the Containers**:
-   ```bash
-   docker-compose up --build
-   ```
+To stop the containers:
+```bash
+docker-compose down
+```
 
-3. **Access the App**: The frontend will be available at [http://localhost:3000](http://localhost:3000) and the backend API at `http://localhost:5001`.
+## Development
+RepoMap is actively developed as an open-source project.
+If you want to work on the project locally:
 
-*(To run the containers in the background, use `docker-compose up -d --build`. To stop them, run `docker-compose down`.)*
+```bash
+git clone https://github.com/ArmanX-Labs/RepoMap.git 
+cd RepoMap
+```
 
----
+Then follow the frontend and backend setup instructions above.
 
-## Core Workflow & Architecture Guide
+Before opening a pull request:
+- Create a feature or fix branch.
+- Keep changes focused.
+- Add or update tests where appropriate.
+- Run the relevant test/build commands.
+- Update documentation when behavior changes.
+- Open a pull request with a clear description.
 
-RepoMap is designed to mimic the cognitive model of a seasoned architect exploring a new codebase. Here is how the system processes your repositories:
+## Contributing
+Contributions are welcome.
+You can contribute by:
+- Reporting bugs
+- Suggesting features
+- Improving the parser
+- Adding language support
+- Improving graph layouts
+- Improving performance
+- Adding tests
+- Improving documentation
+- Working on AI integrations
+- Improving accessibility and UX
 
-1. **Connect & Clone**: Paste any public GitHub repository URL into the top search bar. The backend `simple-git` engine securely clones a shallow copy of the repository into temporary storage.
-2. **AST Parsing & Mapping**: The core `parser/` engine traverses the directory tree, reading file contents and constructing an Abstract Syntax Tree (AST) for supported languages. It maps exact function definitions, classes, and cross-file imports to build a comprehensive dependency graph.
-3. **Spatial Graph Generation**: The parsed JSON map is streamed to the frontend, where `React Flow` dynamically calculates node positions, grouping files by directory and generating bezier curve edges to represent dependencies.
-4. **Explore Spatially**: Click and drag anywhere on the canvas to pan. Use the scroll wheel to smoothly zoom from a macro "bird's-eye" directory view down to individual, actionable file nodes.
-5. **Inspect Source & AI Explain**: Click any node to slide open the side inspection panel. From here, you can view the raw syntax-highlighted source code, verify callers and callees, or click **Explain** to have the AI agents break down complex logic in plain English.
-6. **Export Blueprints**: Click the export option in the top right to download a highly-structured `.drawio` XML file, perfect for embedding in your own documentation or presentations.
+Please read:
+- [Contributing Guide](CONTRIBUTING.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
 
----
+If you are unsure where to start, open an issue describing what you would like to work on.
 
-## Contribute
+## Roadmap
+Some areas we are exploring include:
+- Broader programming-language support
+- More accurate cross-file call resolution
+- Improved large-repository rendering
+- Vector-based graph exports
+- More graph layouts
+- Improved dependency and data-flow analysis
+- Better AI-assisted repository exploration
+- More automated testing
+- Improved contributor tooling
+- Performance improvements for very large repositories
 
-RepoMap is open source and we welcome contributions! Please read our [Contributing Guidelines](CONTRIBUTING.md) and our [Code of Conduct](CODE_OF_CONDUCT.md) to get started.
+The roadmap may change as the project evolves and as contributors experiment with new ideas.
 
----
+## Known Limitations
+RepoMap is still under active development.
+Some limitations include:
+- Analysis accuracy depends on language and parser support.
+- Very large repositories can produce extremely dense graphs.
+- Raster-based graph exports have practical browser and resolution limits.
+- AI explanations depend on the configured model provider.
+- Private repositories are not currently supported through the public repository workflow.
 
-## License
+These limitations are part of the current development roadmap.
 
-This project is licensed under the [MIT License](LICENSE).
+## Open Source
+RepoMap is released under the MIT License.
+See [LICENSE](LICENSE) for the complete license text.
+
+## Links
+- Live Demo: [https://repomap.armanx.online](https://repomap.armanx.online/)
+- GitHub: [https://github.com/ArmanX-Labs/RepoMap](https://github.com/ArmanX-Labs/RepoMap)
+- Organization: [https://github.com/ArmanX-Labs](https://github.com/ArmanX-Labs)
+
+### Built under ArmanX-Labs
+RepoMap is an open-source project developed under ArmanX-Labs, an independent open-source lab focused on developer tools, AI, and automation.
+We are interested in building tools that make software development easier to understand, navigate, and automate.
+
+If RepoMap is useful to you, consider ⭐ starring the repository, opening an issue, or contributing.
